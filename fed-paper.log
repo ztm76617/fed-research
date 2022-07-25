@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.18)  20 JUL 2022 20:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.23)  24 JUL 2022 22:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -700,18 +700,18 @@ Package rerunfilecheck Info: File `fed-paper.out' has not changed.
 ### semi simple group (level 1) entered at line 166 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 13825 strings out of 479983
- 225319 string characters out of 5886638
+ 13823 strings out of 479983
+ 225289 string characters out of 5886638
  607367 words of memory out of 5000000
  31675 multiletter control sequences out of 15000+600000
  545514 words of font info for 81 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  72i,11n,77p,314b,589s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/zachmcdowell/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</Users/zachmcdowell/Library/TinyTeX/texmf-dist/fonts/type1/public/mlmodern/mlmbx10.pfb></Users/zachmcdowell/Library/TinyTeX/texmf-dist/fonts/type1/public/mlmodern/mlmbx12.pfb></Users/zachmcdowell/Library/TinyTeX/texmf-dist/fonts/type1/public/mlmodern/mlmr10.pfb></Users/zachmcdowell/Library/TinyTeX/texmf-dist/fonts/type1/public/mlmodern/mlmr12.pfb></Users/zachmcdowell/Library/TinyTeX/texmf-dist/fonts/type1/public/mlmodern/mlmr17.pfb></Users/zachmcdowell/Library/TinyTeX/texmf-dist/fonts/type1/public/mlmodern/mlmri10.pfb></Users/zachmcdowell/Library/TinyTeX/texmf-dist/fonts/type1/public/mlmodern/mlmri12.pfb></Users/zachmcdowell/Library/TinyTeX/texmf-dist/fonts/type1/public/mlmodern/mlmro12.pfb>
-Output written on fed-paper.pdf (10 pages, 207631 bytes).
+Output written on fed-paper.pdf (10 pages, 207562 bytes).
 PDF statistics:
- 209 PDF objects out of 1000 (max. 8388607)
- 173 compressed objects within 2 object streams
- 51 named destinations out of 1000 (max. 500000)
+ 207 PDF objects out of 1000 (max. 8388607)
+ 171 compressed objects within 2 object streams
+ 49 named destinations out of 1000 (max. 500000)
  83 words of extra memory for PDF output out of 10000 (max. 10000000)
 

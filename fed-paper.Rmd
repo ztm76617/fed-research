@@ -13,8 +13,8 @@ output:
   pdf_document:
     number_sections: true
     fig_caption: true
-bibliography: fedbib.bib
-csl: apsa-v11.csl
+bibliography: monetary.bib
+csl: apsa-edit.csl
 fontsize: 12pt
 indent: yes
 link-citations: yes
@@ -109,7 +109,7 @@ fedr_df_v2_copy <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Fed 
 \newpage
 
 \fancypagestyle{INTRODUCTION}{%
-    \fancyhead[R]{INTRODUCTION}
+    \fancyhead[R]{}
     \fancyhead[L]{}
 }
 
