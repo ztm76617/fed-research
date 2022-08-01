@@ -1,0 +1,1 @@
+This is the repository for a paper I'm working on that examines the Federal Reserve. The data I use isn't currently uploaded because it's too large, but I'll be sure to upload all used data as a zip file at the end.
