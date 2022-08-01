@@ -5,7 +5,7 @@ library(scales); library(IndexNumR); library(wid); library(scales); library(data
 library(stats); library(smooth); library(tm); library(TTR); library(naniar); library(stevetemplates);
 library(plm); library(WDI); library(lmtest); library(sandwich); library(countrycode)
 #---------------------------------------------------------------------------
-Global_Debt_Database <- read_dta("~/My Drive/Misc PDFs + eBooks/Misc. Data/Global Debt Database/Global Debt Database.dta")
+Global_Debt_Database <- read_dta("~/Google Drive/My Drive/3 - Misc. Data Research/Misc. Data/Global Debt Database/Global Debt Database.dta")
 #---------------------------------------------------------------------------
 table(Global_Debt_Database$country)
 
@@ -32,12 +32,12 @@ Global_Debt_Database_tidy <- Global_Debt_Database %>%
                                         c("China, Mainland" = "China",
                                          "Russian Federation" = "Russia",
                                          'Korea, Republic of' = 'South Korea'))) %>%
-  mutate(country_code_ISO3 = countrycode(country_name, origin = 'country.name', destination = 'iso3c'))
+  mutate(iso3 = countrycode(country_name, origin = 'country.name', destination = 'iso3c'))
 #---------------------------------------------------------------------------
 Global_Debt_Database_tidy_v2 <- Global_Debt_Database_tidy %>%
   select(-country_name)
 #---------------------------------------------------------------------------
-write_rds(Global_Debt_Database_tidy_v2, '1 - Data/1 - Tidy Data/Global_Debt_Database_tidy_v2.rds')
+write_rds(Global_Debt_Database_tidy_v2, '~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/Global_Debt_Database_tidy_v2.rds')
 #---------------------------------------------------------------------------
 
 

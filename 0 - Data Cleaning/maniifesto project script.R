@@ -77,7 +77,10 @@ manifesto_project_df_tidy <- manifesto_project_df %>%
   rename(country_code_ISO2 = manif_country_code_ISO2,
          year = manif_year)
 #------------------------------------------------------------------------
-write_rds(manifesto_project_df_tidy, "1 - Data/manifesto_project_df_tidy.rds")
+manifesto_project_df_tidy <- manifesto_project_df_tidy %>%
+  rename(iso2 = country_code_ISO2)
+#------------------------------------------------------------------------
+write_rds(manifesto_project_df_tidy, "~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/manifesto_project_df_tidy.rds")
 #------------------------------------------------------------------------
 
 

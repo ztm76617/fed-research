@@ -7,6 +7,8 @@ library(IndexNumR); library(wid); library(scales);library(ISOcodes); library(lab
 library(stats); library(smooth); library(tm); library(TTR); library(naniar); library(countrycode); library(RColorBrewer)
 library(WDI); library(lmtest); library(sandwich); library(interactions); library(ggpubr); library(gplots); library(purrr)
 #--------------------------------------------------------------------------------------
+mega_combined_vars_df <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Fed Data/mega_combined_vars_df.rds")
+#--------------------------------------------------------------------------------------
 names(wes_palettes)
 
 scale_fill_manual(values = wes_palette("Royal1"))
@@ -1061,7 +1063,129 @@ mega_combined_vars_df %>%
         legend.background = element_blank(),
         legend.box.background = element_rect(colour = "black")) +
   scale_x_continuous(limits = c(1990, 2020), breaks = seq(1990, 2020, by = 10))
+#--------------------------------------------------------------------------------
+wid_df_final %>%
+  filter(iso2 %in% c("US", "CA", "FR")) %>%
+  rename("Gini Coefficient" = wid_gini_coeff) %>%
+  select(country_name, year, "Gini Coefficient") %>%
+  gather(key = "Type", value = "value", -country_name, -year) %>%
+  ggplot(aes(x = year, y = value)) +
+  geom_line(aes(linetype = Type)) +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Gini Coefficient (0-1)",
+       linetype = "",
+       caption = "
+       Data source(s): World Inequality Database") +
+  theme(text = element_text(face = 'bold'),
+        plot.caption = element_text(hjust = 0, face = "bold"),
+        plot.caption.position = "plot",
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black")) +
+  scale_x_continuous(limits = c(1960, 2021), breaks = seq(1960, 2021, by = 10)) +
+  facet_wrap(vars(country_name))
+#--------------------------------------------------------------------------------
+wid_df_final %>%
+  filter(iso2 %in% c("US")) %>%
+  rename("Median Income" = wid_avg_pre_tax_disp_income_50th_pctile_2021_LCU,
+         "90th Percentile" = wid_avg_pre_tax_disp_income_90th_pctile_2021_LCU) %>%
+  select(country_name, year, "Median Income", "90th Percentile") %>%
+  gather(key = "Type", value = "value", -country_name, -year) %>%
+  ggplot(aes(x = year, y = value)) +
+  geom_line(aes(linetype = Type)) +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Dollars (USD)",
+       linetype = "",
+       caption = "
+       Data source(s): World Inequality Database",
+       title = "Average Pre-Tax Disposable Income",
+       subtitle = "By Income Group") +
+  theme(text = element_text(face = 'bold'),
+        plot.caption = element_text(hjust = 0, face = "bold"),
+        plot.caption.position = "plot",
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black")) +
+  scale_x_continuous(limits = c(1960, 2021), breaks = seq(1960, 2021, by = 10))
+#--------------------------------------------------------------------------------
+wid_df_final %>%
+  filter(iso2 %in% c("US")) %>%
+  rename("Median Income" = wid_avg_pre_tax_disp_income_50th_pctile_2021_LCU,
+         "Top 1%" = wid_avg_pre_tax_disp_income_99th_pctile_2021_LCU,
+         "90th Percentile" = wid_avg_pre_tax_disp_income_90th_pctile_2021_LCU) %>%
+  select(country_name, year, "Median Income", "Top 1%",  "90th Percentile") %>%
+  gather(key = "Type", value = "value", -country_name, -year) %>%
+  ggplot(aes(x = year, y = value)) +
+  geom_line(aes(linetype = Type)) +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Dollars (USD)",
+       linetype = "",
+       caption = "
+       Data source(s): World Inequality Database",
+       title = "Average Pre-Tax Disposable Income",
+       subtitle = "By Income Group") +
+  theme(text = element_text(face = 'bold'),
+        plot.caption = element_text(hjust = 0, face = "bold"),
+        plot.caption.position = "plot",
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black")) +
+  scale_x_continuous(limits = c(1960, 2021), breaks = seq(1960, 2021, by = 10))
+#--------------------------------------------------------------------------------
+wid_df_final %>%
+  filter(iso2 %in% c("US")) %>%
+  rename("Median Income" = wid_avg_pre_tax_disp_income_50th_pctile_2021_LCU,
+         "Top 1%" = wid_avg_pre_tax_disp_income_99th_pctile_2021_LCU,) %>%
+  select(country_name, year, "Median Income", "Top 1%") %>%
+  gather(key = "Type", value = "value", -country_name, -year) %>%
+  ggplot(aes(x = year, y = value)) +
+  geom_line(aes(linetype = Type)) +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Dollars (USD)",
+       linetype = "",
+       caption = "
+       Data source(s): World Inequality Database",
+       title = "Average Pre-Tax Disposable Income") +
+  theme(text = element_text(face = 'bold'),
+        plot.caption = element_text(hjust = 0, face = "bold"),
+        plot.caption.position = "plot",
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black")) +
+  scale_x_continuous(limits = c(1960, 2021), breaks = seq(1960, 2021, by = 10))
+#--------------------------------------------------------------------------------
+names(wid_df_final)
 
+mega_combined_vars_df_final %>%
+  filter(iso2 %in% c("US", "CA", "FR", "GB")) %>%
+  mutate(wid_pre_tax_income_share_bottom_50pct = wid_pre_tax_income_share_bottom_50pct,
+         wid_pre_tax_income_share_top_1pct = wid_pre_tax_income_share_top_1pct) %>%
+  rename("Bottom 50%" = wid_pre_tax_income_share_bottom_50pct,
+         "Top 1%" = wid_pre_tax_income_share_top_1pct) %>%
+  select(iso3, year, "Bottom 50%", "Top 1%") %>%
+  gather(key = "Type", value = "value", -iso3, -year) %>%
+  ggplot(aes(x = year, y = value)) +
+  geom_line(aes(linetype = Type)) +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Income Share (%)",
+       linetype = "",
+       caption = "
+       Data source(s): World Inequality Database") +
+  theme(text = element_text(face = 'bold'),
+        axis.title.x = element_text(vjust = -0.7),
+        plot.caption = element_text(hjust = 0),
+        plot.caption.position = "plot",
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black")) +
+  scale_x_continuous(limits = c(1980, 2020), breaks = seq(1980, 2020, by = 10)) +
+  facet_wrap(vars(iso3)) +
+  geom_vline(xintercept = 2007, linetype = "dashed", color = "blue")
 
 
 

@@ -72,8 +72,11 @@ DPI_df_tidy <- DPI_df %>%
          DPI_autonomous_regions_Y_N = auton) %>%
   replace_with_na_at(.vars = c(3:24),
                      condition = ~.x == -999)
+
+DPI_df_tidy <- DPI_df_tidy %>%
+  rename(iso3 = country_code_ISO3)
 #----------------------------------------------------------------
-write_rds(DPI_df_tidy, '1 - Data/DPI_df_tidy.rds')
+write_rds(DPI_df_tidy, '~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/DPI_df_tidy.rds')
 #----------------------------------------------------------------
 
 print(iso_df_24_countries_tidy$country_code_ISO3)

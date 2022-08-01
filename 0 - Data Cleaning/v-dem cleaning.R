@@ -149,7 +149,10 @@ write_rds(vdem_cpd_df_tidy, '1 - Data/vdem_cpd_df_tidy.rds')
 vdem_full_tidy <- vdem_main_df_tidy %>%
   left_join(vdem_cpd_df_tidy, by = c('country_code_ISO3', 'year'))
 #-------------------------------------------------------------------------------
-write_rds(vdem_full_tidy, '1 - Data/vdem_full_tidy.rds')
+vdem_full_tidy <- vdem_full_tidy %>%
+  rename(iso3 = country_code_ISO3)
+#-------------------------------------------------------------------------------
+write_rds(vdem_full_tidy, '~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/vdem_full_tidy.rds')
 #-------------------------------------------------------------------------------
 
          

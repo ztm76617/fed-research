@@ -128,13 +128,15 @@ merged_misc_pwt_dfs <- Reduce(function(...) merge(..., all=TRUE),
                                    pwt10_capital_detail_tidy)) %>%
   select('country_code_ISO3', 'year',
          sort(colnames(.))) %>%
-  arrange(country_code_ISO3, year)
+  arrange(country_code_ISO3, year) %>%
+  rename(iso3 = country_code_ISO3)
 #---------------------------------------------------------------------------------
-write_rds(merged_misc_pwt_dfs, '1 - Data/1 - Tidy Data/merged_misc_pwt_dfs.rds')
+pwt_mega_df_v2 <- pwt_mega_df %>%
+  rename(iso3 = country_code_ISO3)
+#---------------------------------------------------------------------------------
+write_rds(pwt_mega_df_v2, '~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/pwt_mega_df.rds')
 #---------------------------------------------------------------------------------
 
-pwt_mega_df <- pwt_mega_df %>%
-  rename(iso3 = country_code_ISO3)
 
 
 

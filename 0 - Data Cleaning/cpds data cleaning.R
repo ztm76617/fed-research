@@ -35,7 +35,7 @@ library(smooth)
 library(ggrepel)
 library(sjlabelled)
 #-----------------------------------------------------------------------------------------
-CPDS.df <- read_excel("1 - Data/Extra data/CPDS_1960-2019_Update_2021.xlsx")
+CPDS.df <- read_dta("~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/cpds_2020-21.dta")
 #-----------------------------------------------------------------------------------------
 names(CPDS.df)
 
@@ -91,7 +91,7 @@ CPDS.df_tidy <- CPDS.df %>%
          gov_left3,
          instcons,
          outlays) %>%
-  rename(country_code_ISO3 = iso,
+  rename(iso3 = iso,
          economic_openness_via_trade = openc,
          absolute_disproportionality_idx = dis_abso,
          relative_disproportionality_idx = dis_rel,
@@ -141,13 +141,13 @@ CPDS.df_tidy <- CPDS.df %>%
          pct_govt_cabinet_left_party = gov_left1,
          relative_govt_power_left_party = gov_left2,
          legis_seat_share_left_party = gov_left3) %>%
-  arrange(country_code_ISO3, year) %>%
-  rename_with( ~ paste("CPDS", .x, sep = "_")) %>%
-  rename(country_code_ISO3 = CPDS_country_code_ISO3,
-         year = CPDS_year) %>%
+  arrange(iso3, year) %>%
+  rename_with( ~ paste("cpds", .x, sep = "_")) %>%
+  rename(iso3 = cpds_iso3,
+         year = cpds_year) %>%
   remove_all_labels()
 #-----------------------------------------------------------------------------------------
-write_rds(CPDS.df_tidy, '1 - Data/CPDS.df_tidy.rds')
+write_rds(CPDS.df_tidy, '~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/CPDS.df_tidy.rds')
 #-----------------------------------------------------------------------------------------
 
 

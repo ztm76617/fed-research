@@ -195,11 +195,13 @@ global_oecd_dfs_merged <- oecd_econ_outlook_global_df_tidy %>%
   rename_with( ~ paste("oecd", .x, sep = "_")) %>%
   rename(country_code_ISO3 = oecd_country_code_ISO3,
          year = oecd_year)
+
+global_oecd_dfs_merged <- global_oecd_dfs_merged %>%
+  rename(iso3 = country_code_ISO3)
 #-------------------------------------------------------------------------------------------------------------
-write_rds(global_oecd_dfs_merged, "1 - Data/global_oecd_dfs_merged.rds")
+write_rds(global_oecd_dfs_merged, "~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/global_oecd_dfs_merged.rds")
 #-------------------------------------------------------------------------------------------------------------
 
-names(global_oecd_dfs_merged)
 
 
 

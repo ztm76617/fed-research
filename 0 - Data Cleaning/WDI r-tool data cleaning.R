@@ -63,7 +63,7 @@ WDI_full_df_edit <- WDI_full_df[["Data"]] %>%
   select(-Indicator.Code, -Country.Name) %>%
   pivot_wider(names_from = Indicator.Name, values_from = value)
 #--------------------------------------------------------------------------------------
-write_rds(WDI_full_df_edit, "3 - Data/WDI_full_df_edit.rds")
+write_rds(WDI_full_df_edit, "~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/WDI_full_df.rds")
 #--------------------------------------------------------------------------------------
 names(WDI_full_df_edit)
 
@@ -77,8 +77,8 @@ names(WDI_full_df_edit_v1)
 
 WDI_full_df_edit_v2 <- WDI_full_df_edit_v1[ , -c(418:462, 464:480, 484:580, 594:604,
                           610:621, 628:647, 664:690, 706:786)]
---------------------------------------------------------------------------------------
-  write_rds(WDI_full_df_edit_v2, "3 - Data/WDI_full_df_edit_v2.rds")
+#--------------------------------------------------------------------------------------
+write_rds(WDI_full_df_edit_v2, "~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/WDI_full_df_edit_v2.rds")
 #--------------------------------------------------------------------------------------
 
 

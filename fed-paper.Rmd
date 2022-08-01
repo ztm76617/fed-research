@@ -13,6 +13,7 @@ output:
   pdf_document:
     number_sections: true
     fig_caption: true
+    keep_tex: TRUE
 bibliography: monetary.bib
 csl: apsa-edit.csl
 fontsize: 12pt
@@ -42,6 +43,8 @@ header-includes:
 - \usepackage{etoolbox}
 - \usepackage{mlmodern}
 - \usepackage[T1]{fontenc}
+- \usepackage{enumitem}
+- \setlist{noitemsep}
 - \AtBeginEnvironment{quote}{\singlespace\vspace{-\topsep}\small}
 - \AtEndEnvironment{quote}{\vspace{-\topsep}\endsinglespace}
 - |
@@ -49,8 +52,8 @@ header-includes:
     \providecommand{\keywords}[1]{\textbf{Keywords:} #1}
     ```
 nocite: |
-  | @spindel2017, @king2018b, @lapavitsas2013, @lapavitsas2013c, @jacobs2016, @dorr2018a, @szepanski2022, @toussaint2019, @dorr2018a,
-  @piketty2017, @piketty2020, @piketty2022, @boushey2018, @axilrod2011, @tooze2018, @crisisrep2011
+  | @spindel2017, @king2018b, @lapavitsas2013, @lapavitsas2013c, @jacobs2016, @toussaint2019, @dorr2018a,
+  @piketty2017, @piketty2020, @piketty2022, @boushey2018, @worldbank2022
 ---
 
 ```{r setup, include=FALSE}
@@ -58,12 +61,13 @@ nocite: |
 knitr::opts_chunk$set(echo = FALSE,
                       message = FALSE,
                       warning = FALSE,
-                      fig.width = 6.25,
-                      fig.asp = 0.8,
+                      fig.width = 7,
+                      fig.asp = 0.7,
                       fig.align = "center",
                       fig.pos = "ht")
 #---------------------------------------------------------------------
 library(tidyverse)
+library(plm)
 library(stargazer)
 library(lmtest)
 library(sandwich)
@@ -75,20 +79,14 @@ library(bookdown)
 #---------------------------------------------------------------------
 # Load Data
 #---------------------------------------------------------------------
-mega_combined_vars_df <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Fed Data/mega_combined_vars_df.rds")
+mega_combined_vars_df_final <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/mega_combined_vars_df_final.rds")
 #---------------------------------------------------------------------
-new_mega_df <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Fed Data/new_mega_df.rds")
-#---------------------------------------------------------------------
-new_mega_edits_df <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Fed Data/new_mega_edits_df.rds")
-#---------------------------------------------------------------------
-pwt_mega_df <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Fed Data/pwt_mega_df.rds")
-#---------------------------------------------------------------------
-fedr_df_v2_copy <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Fed Data/fedr_df_v2_copy.rds")
+fedr_df_v2_copy <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/fedr_df_v2_copy.rds")
 #---------------------------------------------------------------------
 ```
 
 ```{=latex}
-\keywords{Inequality, Fed, Monetary Politics, Financial Crisis}
+\keywords{Inequality, Federal Reserve, Monetary Politics, Financial Crisis}
 ```
 
 \let\thefootnote\relax\footnotetext{\lipsum[1][1-7]}
@@ -120,7 +118,23 @@ fedr_df_v2_copy <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Fed 
 
 # Introduction {-}
 
-Man, that review response really bothered me. Like, the book's authors didn't even seem to try to refute King on the actual terms he presented, almost as if they there will intentionally ignoring the crux of King's criticisms because they had no way to counter him directly, instead relying on obfuscation to defend their claims. Sincerely, Binder and Spindel responded in such a way as make it seem that they were avoiding the critiques raised in an almost condescending way.
+In 2018, the journal *Perspectives on Politics* published an interesting back-and-forth between two opposing sets of monetary politics scholars. Sarah Binder and Mark Spindel are the authors of *The Myth of Independence*, which argues that the Federal Reserve has an "interdependent relationship" with Congress. Both institutions rely on each other for different things, so neither is fully dependent on nor independent from the other, hence why Binder and Spindel refer to their relationship as interdependent. On the other hand, Desmond King and Lawrence Jacobs argue in *Fed Power* that the Federal Reserve is effectively independent from Congress and holds more institutional power than it has any point in its history. They argue that the Fed's policies, under normal economic conditions, serve to worsen economic inequality by favoring financial capital over working-class Americans. The *Perspectives on Politics* article is unique in that it is structured as follows:
+
+1. King reviews *The Myth of Independence*
+2. Binder and Spindel respond to King's review
+3. Binder and Spindel reviews *Fed Power*
+4. King and Lawrence respond to Binder and Spindel's review
+
+In their response, King and Lawrence summarize their main point of disagreement with *The Myth of Independence*, stating that "Sarah Binder and Mark Spindel view the Fed’s actions as part of a dance with Congress that is largely silent about the winners and losers outside of Washington. By contrast, Fed Power puts the distributional consequences of the central bank’s policy front and center, along with the politics that produces them" [@binder2018c, pg. 783]. In other words, Binder and Spindel do not pay sufficient attention to the distributional consequences concerning income and wealth that are the result of Fed policies, nor do they appear to recognize the real amount of power held by the Fed. 
+
+Moreover, King and Lawrence, in their joint-response, list their top four criticisms of *The Myth of Independence*,  wherein they posit that Binder and Spindel:
+
+1. Overstate the Fed's "deference to Congress and under appreciates the Fed’s will and capacity to evade legislative control" [@binder2018c, pg. 783].
+2. Under appreciate the fact that the Fed "is independent of the congressional budget appropriations process" [@binder2018c, pg. 783].
+3. Omit any discussion of the phenomenon known as "financialization" [@binder2018c, pg. 783].
+4. Fail to recognize the clear institutional bias towards the wealthy, which can can be seen in how "the Fed’s selective beneﬁts for ﬁnance and the conduct of monetary policy produce clear winners among the most afﬂuent" [@binder2018c, pg. 783].
+
+What bothers me, as a scholar, is how Binder and Spindel egregiously failed to refute King and Lawrence on the actual terms he presented, almost as if they there will intentionally ignoring the crux of King's criticisms because they had no way to counter him directly, instead relying on obfuscation to defend their claims. Binder and Spindel responded in such a way as make it seem that they were avoiding the critiques raised in a seemingly condescending way.
 
 Before we can begin arguing about whether or not the Fed is dependent on Congress, we must first define what me mean by "dependent." Further, we must also pin down the contextual and effective meaning of "accountability" when discussing the relationship between the two institutions. In my view, passing legislation is but one part of the matrix of components that constitutes what is necessary, but not sufficient, to hold the Fed accountable. I'm more interested in investigating whether or not it can be reasonably argued that the Fed, by virtue of its dependency on Congress, has been *meaningfully* held accountable by Congress for its various failings.
 
@@ -138,33 +152,46 @@ The most egregious example of Binder totally missing the point is how she respon
 
 > **Binder**: Congress authorizes the Fed to make emergency loans to banks—not to steer aid directly to homeowners. In a crisis, monetary policy can affect the real economy by pumping credit through the clogged plumbing of the ﬁnancial system. And evidence from progressive economists suggests that the Fed’s unconventional bond purchases reduced mortgage rates, making working- and middleclass Americans better-off [@binder2018c, pg. 781].
 
-I've done my best to fairly and accurately represent each authors' views, while still being concise. If anyone has issues with how I've represented the above exchange, I welcome any and all criticisms, given the subjective nature of how I chose to shorten the respective quotes. That said, insofar as the above quotes *do* accurately and fairly represent the authors' respective views concerning the Fed's role in contributing to the 2008 financial crisis and the subsequent worsening of income and wealth inequality, on top of the aforementioned job losses and misery, Binder's response is pathetic, to say the least. Pointing to the fact that Fed's bond buying supposedly "reduced mortgage rates, making working- and middleclass Americans better-off" is tantamount to lauding an engineer for filling a single crack on a fully broken dam. Binder's response implicitly under-emphasizes the apocalyptic experiences felt by millions of Americans and citizens in countries the world over. There may not be enough time in this article to discuss the Fed's role in propping up the European Union during the Eurocrisis, but its at least worth mentioning for the time being.
+I've done my best to fairly and accurately represent each authors' views, while still being concise. If anyone has issues with how I've represented the above exchange, I welcome any and all criticisms, given the subjective nature of how I chose to shorten the respective quotes. That said, insofar as the above quotes *do* accurately and fairly represent the authors' respective views concerning the Fed's role in contributing to the 2008 financial crisis and the subsequent worsening of income and wealth inequality, on top of the aforementioned job losses and misery, Binder's response is lacking, to say the least.
+
+Pointing to the fact that Fed's bond buying supposedly "reduced mortgage rates, making working- and middleclass Americans better-off" is tantamount to lauding an engineer for filling a single crack on a fully broken dam. Binder's response implicitly under-emphasizes the apocalyptic experiences felt by millions of Americans and citizens in countries the world over. There may not be enough time in this article to discuss the Fed's role in propping up the European Union during the Eurocrisis, but its at least worth mentioning for the time being. For now, it is necessary to specify what we mean when discussing and subsequently operationalizing "economic inequality."
+
+The most common way scholars measure *income* inequality is by calculating a country's Gini coefficient, which is a index value ranging from 0 to 1, with 0 representing perfect equality and 1 representing perfect inequality. The World Bank provides the following, more comprehensive explanation:
+
+> The Gini index measures the extent to which the distribution of income (or, in some cases, consumption expenditure) among individuals or households within an economy deviates from a perfectly equal distribution... The Gini index measures the area between the Lorenz curve and a hypothetical line of absolute equality, expressed as a percentage of the maximum area under the line. Thus a Gini index of 0 represents perfect equality, while an index of 100 implies perfect inequality [@worldbank2022].
+
+\autoref{income_dist1} shows that, contrary to what Binder and Spindel seem to imply, inequality in the US worsened post-2008. And to bolster King and Jacobs's argument that the Fed should have emulated the Bank of Canada, \autoref{income_dist1} also shows that the income share of their Top 1% decreased sharply from 2008 to 2013, whereas the income share going to the Top 1% in the US *increased* sharply post-2008. But where does the Fed come in? According to Leonard---and in stark contrast to the claims of Binder and Spindel---the Fed's policy of "quantitiative easing" (QE) did more than any other single policy "to widen the divide between the rich and the poor [@leonard2022, pg. 10].
 
 ```{r income_dist1, cache=TRUE, fig.cap="\\label{income_dist1}Share of National Income (\\%)"}
 #--------------------------------------------------------------------------------
-# Solid Barplot
-#--------------------------------------------------------------------------------
-mega_combined_vars_df %>%
-  filter(country_code_ISO3 %in% c("USA")) %>%
-  rename("Bottom 50%" = WID_pre_tax_income_share_bottom_50pct,
-         "Top 1%" = WID_pre_tax_income_share_top_1pct) %>%
+mega_combined_vars_df_final %>%
+  filter(iso2 %in% c("US", "CA")) %>%
+  mutate(wid_pre_tax_income_share_bottom_50pct = wid_pre_tax_income_share_bottom_50pct*100,
+         wid_pre_tax_income_share_top_1pct = wid_pre_tax_income_share_top_1pct*100) %>%
+  rename("Bottom 50%" = wid_pre_tax_income_share_bottom_50pct,
+         "Top 1%" = wid_pre_tax_income_share_top_1pct,) %>%
   select(country_name, year, "Bottom 50%", "Top 1%") %>%
   gather(key = "Type", value = "value", -country_name, -year) %>%
   ggplot(aes(x = year, y = value)) +
   geom_line(aes(linetype = Type)) +
   theme_bw() +
   labs(x = "Year",
-       y = "Share of National Income (%)",
+       y = "Income Share (%)",
        linetype = "",
        caption = "
        Data source(s): World Inequality Database") +
   theme(text = element_text(face = 'bold'),
-        plot.caption = element_text(hjust = 0, face = "bold"),
+        axis.title.x = element_text(vjust = -0.5),
+        axis.title.y = element_text(vjust = 2.5),
+        plot.caption = element_text(hjust = 0),
         plot.caption.position = "plot",
         legend.position = "bottom",
         legend.background = element_blank(),
         legend.box.background = element_rect(colour = "black")) +
-  scale_x_continuous(limits = c(1990, 2020), breaks = seq(1990, 2020, by = 10))
+  scale_x_continuous(limits = c(1980, 2020), breaks = seq(1980, 2020, by = 10)) +
+  scale_y_continuous(breaks = seq(7, 22, by = 2)) +
+  facet_wrap(vars(country_name)) +
+  geom_vline(xintercept = 2008, linetype = "dashed", color = "red")
 #--------------------------------------------------------------------------------
 ```
 
@@ -184,7 +211,7 @@ The main point to make is that Congress is barely capable of handling mundane le
 
 Binder appears to equate legislation requiring increased transparency at the Fed as demonstrable proof that Congress is fully capable of holding the Fed accountable for its actions, especially its failures. To pull from an earlier quote by King, the Fed "enjoys more power and autonomy than at any time in its 100-year history" [@binder2018c]. So the question we should be asking ourselves is: How can it be said that the Fed has been held accountable by Congress throughout its 100 year existence despite it currently wielding more power than ever? How does an institution accrue such power while being under the control of Congress?
 
-# A People's History of the Fed
+## A People's History of the Fed
 
 The scholarly treatment of the history of the Fed is one of the most curious phenomena in the social sciences. As Binder and Spindel did in *The Myth of Independence*, and as countless others have done and will continue to do, the Fed's essential history is well documented. That said, the *essential* history of the Fed is one of the obstacles that prevents most scholars from engaging with the Fed in recognition of what it is, that being the single most powerful and influential central banks in the world, an institution that garners the attention of both the finance minsters of every country as well as every bank and financial asset manager.
 
@@ -218,7 +245,320 @@ fedr_df_v2_copy %>%
 #--------------------------------------------------------------------------------
 ```
 
-One need not look far back into 20th century history to observe the Fed's actions affecting the world economy, not to mention the fact that one could argue that the European Union owes its post-2015 existence to the Fed's dollar swap-lines.  
+One need not look far back into 20th century history to observe the Fed's actions affecting the world economy, not to mention the fact that one could argue that the European Union owes its post-2015 existence to the Fed's dollar swap-lines.
+
+# Original Empirical Analysis
+
+What causes inequality? More specifically, what causes income inequality? According the Binder and Spindel, not the Fed! Not the Fed's standard operating procedures! I'm more inclined to believe King and Jacobs when they say, on the contrary, that the Fed is an inequality machine, with its each of typical policies and actions serving to worsen inequality in the US and the world. But which set of scholars is right?
+
+To see which book's thesis holds up better under scrutiny, I have created an empirical model designed to capture all of the major contributors to income inequality. The first question of interest concerns the role of financial capital assets in worsening income inequality.
+
+## Literature Review
+
+There is a large body of literature that examines the various social and political phenomena caused by inequality, but less work has been done to explain what causes inequality in the first place.
+
+## Hypotheses
+
+-   **H1**: As financial assets *increase* as a share of GDP, income inequality will *increase.*
+
+-   **H2**: As union density *increases*, income inequality will *decrease.*
+
+-   **H3**: As the real rate of return on capital *increases*, inequality will *increase.*
+
+## Methods
+
+Following the recommendations found in @beck1995, I have employed a time-series panel study of 24 OECD countries.
+
+## Results
+
+\autoref{ineq1} shows, across multiple model specifications, that a one unit increase in financial assets (as a share of GDP) is associated with, on average and all things being equal, between a 0.204 and 1.346 unit increase in income inequality, depending on how inequality is measured.
+
+```{r ols1, cache=TRUE, results='asis'}
+#--------------------------------------------------------------------------------------
+regression_ready_df <- mega_combined_vars_df_final %>%
+  filter(year >= 1980) %>%
+  select(iso3, year,
+         wid_pre_tax_income_share_top_1pct,
+         wid_ratio_income_share_99th_50th_pctile,
+         wid_ratio_income_share_99th_10th_pctile,
+         wid_ratio_income_share_90th_50th_pctile,
+         wid_ratio_income_share_90th_10th_pctile,
+         pwt_irr,
+         cpds_unemployment_rate,
+         cpds_inflation_rate,
+         oecd_union_density,
+         pwt_gdp_pc_growth_2017_USD,
+         pwt_human_capital_index,
+         wid_pct_gdp_national_financial_assets,
+         pwt_pct_gdp_international_trade,
+         cabinet_majority_left,
+         oecd_public_socspend_wa_pct_gdp) %>%
+  make.pbalanced()
+
+write_rds(regression_ready_df, '~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/regression_ready_df.rds')
+#-----------------------------------------------------------------------------------------------
+form_m1.1 <- wid_pre_tax_income_share_top_1pct ~
+  pwt_irr +
+  cpds_unemployment_rate +
+  cpds_inflation_rate +
+  oecd_union_density +
+  pwt_gdp_pc_growth_2017_USD +
+  factor(iso3)
+
+form_m2.1 <- wid_pre_tax_income_share_top_1pct ~
+  pwt_irr +
+  cpds_unemployment_rate +
+  cpds_inflation_rate +
+  oecd_union_density +
+  pwt_gdp_pc_growth_2017_USD +
+  pwt_human_capital_index +
+  wid_pct_gdp_national_financial_assets +
+  pwt_pct_gdp_international_trade +
+  oecd_public_socspend_wa_pct_gdp +
+  cabinet_majority_left +
+  factor(iso3)
+
+form_m1.2 <- wid_ratio_income_share_99th_50th_pctile ~
+  pwt_irr +
+  cpds_unemployment_rate +
+  cpds_inflation_rate +
+  oecd_union_density +
+  pwt_gdp_pc_growth_2017_USD +
+  factor(iso3)
+
+form_m2.2 <- wid_ratio_income_share_99th_50th_pctile ~
+  pwt_irr +
+  cpds_unemployment_rate +
+  cpds_inflation_rate +
+  oecd_union_density +
+  pwt_gdp_pc_growth_2017_USD +
+  pwt_human_capital_index +
+  wid_pct_gdp_national_financial_assets +
+  pwt_pct_gdp_international_trade +
+  oecd_public_socspend_wa_pct_gdp +
+  cabinet_majority_left +
+  factor(iso3)
+
+form_m1.3 <- wid_ratio_income_share_99th_10th_pctile ~
+  pwt_irr +
+  cpds_unemployment_rate +
+  cpds_inflation_rate +
+  oecd_union_density +
+  pwt_gdp_pc_growth_2017_USD +
+  factor(iso3)
+
+form_m2.3 <- wid_ratio_income_share_99th_10th_pctile ~
+  pwt_irr +
+  cpds_unemployment_rate +
+  cpds_inflation_rate +
+  oecd_union_density +
+  pwt_gdp_pc_growth_2017_USD +
+  pwt_human_capital_index +
+  wid_pct_gdp_national_financial_assets +
+  pwt_pct_gdp_international_trade +
+  oecd_public_socspend_wa_pct_gdp +
+  cabinet_majority_left +
+  factor(iso3)
+#-----------------------------------------------------------------------------------------------
+# Models
+#-----------------------------------------------------------------------------------------------
+lm_m1 <- lm(form_m1.1, data = regression_ready_df)
+lm_m2 <- lm(form_m2.1, data = regression_ready_df)
+lm_m3 <- lm(form_m1.2, data = regression_ready_df)
+lm_m4 <- lm(form_m2.2, data = regression_ready_df)
+lm_m5 <- lm(form_m1.3, data = regression_ready_df)
+lm_m6 <- lm(form_m2.3, data = regression_ready_df)
+#-----------------------------------------------------------------------------------------------
+# Robust Standard Error Objects
+#-----------------------------------------------------------------------------------------------
+hc_se_lm_m1 <- sqrt(diag(vcovHC(lm_m1, type = "HC1")))
+hc_se_lm_m2 <- sqrt(diag(vcovHC(lm_m2, type = "HC1")))
+hc_se_lm_m3 <- sqrt(diag(vcovHC(lm_m3, type = "HC1")))
+hc_se_lm_m4 <- sqrt(diag(vcovHC(lm_m4, type = "HC1")))
+hc_se_lm_m5 <- sqrt(diag(vcovHC(lm_m5, type = "HC1")))
+hc_se_lm_m6 <- sqrt(diag(vcovHC(lm_m6, type = "HC1")))
+#-----------------------------------------------------------------------------------------------
+# PCSE Standard Error Objects
+#-----------------------------------------------------------------------------------------------
+pcse_se_lm_m1 <- sqrt(diag(vcovPC(lm_m1, cluster = ~ iso3 + year)))
+pcse_se_lm_m2 <- sqrt(diag(vcovPC(lm_m2, cluster = ~ iso3 + year)))
+pcse_se_lm_m3 <- sqrt(diag(vcovPC(lm_m3, cluster = ~ iso3 + year)))
+pcse_se_lm_m4 <- sqrt(diag(vcovPC(lm_m4, cluster = ~ iso3 + year)))
+pcse_se_lm_m5 <- sqrt(diag(vcovPC(lm_m5, cluster = ~ iso3 + year)))
+pcse_se_lm_m6 <- sqrt(diag(vcovPC(lm_m6, cluster = ~ iso3 + year)))
+#-----------------------------------------------------------------------------------------------
+# Creating List of LM Objects
+#-----------------------------------------------------------------------------------------------
+lm_group <- list(lm_m1, lm_m2, lm_m3, lm_m4, lm_m5, lm_m6)
+#-----------------------------------------------------------------------------------------------
+hc.se_group <- list(hc_se_lm_m1, hc_se_lm_m2, hc_se_lm_m3, hc_se_lm_m4, hc_se_lm_m5, hc_se_lm_m6)
+#-----------------------------------------------------------------------------------------------
+pcse.se_group <- list(pcse_se_lm_m1, pcse_se_lm_m2, pcse_se_lm_m3, pcse_se_lm_m4, pcse_se_lm_m5, pcse_se_lm_m6)
+#-----------------------------------------------------------------------------------------------
+stargazer(lm_group,
+          type = "latex",
+          se = c(pcse.se_group),
+          omit = c("factor\\(iso3\\)"),
+          keep.stat = c("n", "rsq", "adj.rsq"),
+          title = "\\label{ineq1}Determinants of Income Inequality (FE)",
+          dep.var.labels.include = FALSE,
+          model.names = FALSE,
+          header = FALSE,
+          no.space = TRUE,
+          float = TRUE,
+          float.env = "table",
+          font.size = "small",
+          covariate.labels = c("IRR",
+                               "Unemployment",
+                               "Inflation",
+                               "Union Density",
+                               "GDP Growth",
+                               "Human Capital",
+                               "Financial Assets",
+                               "Trade",
+                               "Welfare",
+                               "Left Cabinet"))
+```
+
+```{r ols2, cache=TRUE, results='asis'}
+#--------------------------------------------------------------------------------------
+regression_ready_df <- mega_combined_vars_df_final %>%
+  filter(year >= 1980) %>%
+  select(iso3, year,
+         wid_pre_tax_income_share_top_1pct,
+         wid_ratio_income_share_99th_50th_pctile,
+         wid_ratio_income_share_99th_10th_pctile,
+         wid_ratio_income_share_90th_50th_pctile,
+         wid_ratio_income_share_90th_10th_pctile,
+         pwt_irr,
+         cpds_unemployment_rate,
+         cpds_inflation_rate,
+         oecd_union_density,
+         pwt_gdp_pc_growth_2017_USD,
+         pwt_human_capital_index,
+         wid_pct_gdp_national_financial_assets,
+         pwt_pct_gdp_international_trade,
+         cabinet_majority_left,
+         oecd_public_socspend_wa_pct_gdp) %>%
+  make.pbalanced()
+#-----------------------------------------------------------------------------------------------
+form_m1.1 <- wid_pre_tax_income_share_top_1pct ~
+  pwt_irr +
+  cpds_unemployment_rate +
+  cpds_inflation_rate +
+  oecd_union_density +
+  pwt_gdp_pc_growth_2017_USD
+
+form_m2.1 <- wid_pre_tax_income_share_top_1pct ~
+  pwt_irr +
+  cpds_unemployment_rate +
+  cpds_inflation_rate +
+  oecd_union_density +
+  pwt_gdp_pc_growth_2017_USD +
+  pwt_human_capital_index +
+  wid_pct_gdp_national_financial_assets +
+  pwt_pct_gdp_international_trade +
+  oecd_public_socspend_wa_pct_gdp +
+  cabinet_majority_left
+
+form_m1.2 <- wid_ratio_income_share_99th_50th_pctile ~
+  pwt_irr +
+  cpds_unemployment_rate +
+  cpds_inflation_rate +
+  oecd_union_density +
+  pwt_gdp_pc_growth_2017_USD
+
+form_m2.2 <- wid_ratio_income_share_99th_50th_pctile ~
+  pwt_irr +
+  cpds_unemployment_rate +
+  cpds_inflation_rate +
+  oecd_union_density +
+  pwt_gdp_pc_growth_2017_USD +
+  pwt_human_capital_index +
+  wid_pct_gdp_national_financial_assets +
+  pwt_pct_gdp_international_trade +
+  oecd_public_socspend_wa_pct_gdp +
+  cabinet_majority_left
+
+form_m1.3 <- wid_ratio_income_share_99th_10th_pctile ~
+  pwt_irr +
+  cpds_unemployment_rate +
+  cpds_inflation_rate +
+  oecd_union_density +
+  pwt_gdp_pc_growth_2017_USD
+
+form_m2.3 <- wid_ratio_income_share_99th_10th_pctile ~
+  pwt_irr +
+  cpds_unemployment_rate +
+  cpds_inflation_rate +
+  oecd_union_density +
+  pwt_gdp_pc_growth_2017_USD +
+  pwt_human_capital_index +
+  wid_pct_gdp_national_financial_assets +
+  pwt_pct_gdp_international_trade +
+  oecd_public_socspend_wa_pct_gdp +
+  cabinet_majority_left
+#-----------------------------------------------------------------------------------------------
+# Models
+#-----------------------------------------------------------------------------------------------
+lm_m1 <- lm(form_m1.1, data = regression_ready_df)
+lm_m2 <- lm(form_m2.1, data = regression_ready_df)
+lm_m3 <- lm(form_m1.2, data = regression_ready_df)
+lm_m4 <- lm(form_m2.2, data = regression_ready_df)
+lm_m5 <- lm(form_m1.3, data = regression_ready_df)
+lm_m6 <- lm(form_m2.3, data = regression_ready_df)
+#-----------------------------------------------------------------------------------------------
+# Robust Standard Error Objects
+#-----------------------------------------------------------------------------------------------
+hc_se_lm_m1 <- sqrt(diag(vcovHC(lm_m1, type = "HC1")))
+hc_se_lm_m2 <- sqrt(diag(vcovHC(lm_m2, type = "HC1")))
+hc_se_lm_m3 <- sqrt(diag(vcovHC(lm_m3, type = "HC1")))
+hc_se_lm_m4 <- sqrt(diag(vcovHC(lm_m4, type = "HC1")))
+hc_se_lm_m5 <- sqrt(diag(vcovHC(lm_m5, type = "HC1")))
+hc_se_lm_m6 <- sqrt(diag(vcovHC(lm_m6, type = "HC1")))
+#-----------------------------------------------------------------------------------------------
+# PCSE Standard Error Objects
+#-----------------------------------------------------------------------------------------------
+pcse_se_lm_m1 <- sqrt(diag(vcovPC(lm_m1, cluster = ~ iso3 + year)))
+pcse_se_lm_m2 <- sqrt(diag(vcovPC(lm_m2, cluster = ~ iso3 + year)))
+pcse_se_lm_m3 <- sqrt(diag(vcovPC(lm_m3, cluster = ~ iso3 + year)))
+pcse_se_lm_m4 <- sqrt(diag(vcovPC(lm_m4, cluster = ~ iso3 + year)))
+pcse_se_lm_m5 <- sqrt(diag(vcovPC(lm_m5, cluster = ~ iso3 + year)))
+pcse_se_lm_m6 <- sqrt(diag(vcovPC(lm_m6, cluster = ~ iso3 + year)))
+#-----------------------------------------------------------------------------------------------
+# Creating List of LM Objects
+#-----------------------------------------------------------------------------------------------
+lm_group <- list(lm_m1, lm_m2, lm_m3, lm_m4, lm_m5, lm_m6)
+#-----------------------------------------------------------------------------------------------
+hc.se_group <- list(hc_se_lm_m1, hc_se_lm_m2, hc_se_lm_m3, hc_se_lm_m4, hc_se_lm_m5, hc_se_lm_m6)
+#-----------------------------------------------------------------------------------------------
+pcse.se_group <- list(pcse_se_lm_m1, pcse_se_lm_m2, pcse_se_lm_m3, pcse_se_lm_m4, pcse_se_lm_m5, pcse_se_lm_m6)
+#-----------------------------------------------------------------------------------------------
+stargazer(lm_group,
+          type = "latex",
+          se = c(pcse.se_group),
+          omit = c("factor\\(iso3\\)"),
+          keep.stat = c("n", "rsq", "adj.rsq"),
+          title = "\\label{ineq2}Determinants of Income Inequality (Pooled)",
+          dep.var.labels.include = FALSE,
+          model.names = FALSE,
+          header = FALSE,
+          no.space = TRUE,
+          float = TRUE,
+          float.env = "table",
+          font.size = "small",
+          covariate.labels = c("IRR",
+                               "Unemployment",
+                               "Inflation",
+                               "Union Density",
+                               "GDP Growth",
+                               "Human Capital",
+                               "Financial Assets",
+                               "Trade",
+                               "Welfare",
+                               "Left Cabinet"))
+```
+
 
 # Conclusion
 
@@ -248,3 +588,4 @@ Binder fails to refute any of King's criticisms. Instead, she reinforces there v
 \thispagestyle{APP}
 
 # Appendix {-}
+

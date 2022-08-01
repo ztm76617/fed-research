@@ -27,8 +27,8 @@ vdem_cpd_df_tidy <- vdem_cpd_df %>%
          v2pawelf_osp,
          v2pawelf_ord) %>%
   rename(country_code_ISO3 = country_text_id,
-         cpd_party_seat_share = v2paseatshare,
-         cpd_party_vote_share = v2pavote,
+         party_seat_share = v2paseatshare,
+         party_vote_share = v2pavote,
          economic_issues_LR_idx = v2pariglef_osp,
          economic_issues_LR_ord = v2pariglef_ord,
          welfare_RL_idx = v2pawelf_osp,
@@ -55,6 +55,6 @@ vdem_cpd_df_tidy <- vdem_cpd_df %>%
   rename(country_code_ISO3 = vdem_country_code_ISO3,
          year = vdem_year)
 #-------------------------------------------------------------------------------
-write_rds(vdem_cpd_df_tidy, "1 - Data/vdem_cpd_df_tidy.rds")
+write_rds(vdem_cpd_df_tidy, "~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/vdem_cpd_df_tidy.rds")
 #-------------------------------------------------------------------------------
 
