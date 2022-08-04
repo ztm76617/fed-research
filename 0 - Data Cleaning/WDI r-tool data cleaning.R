@@ -76,9 +76,19 @@ WDI_full_df_edit_v1 <- WDI_full_df_edit[ , -c(3:17, 31:58, 62:217, 220:245, 265:
 names(WDI_full_df_edit_v1)
 
 WDI_full_df_edit_v2 <- WDI_full_df_edit_v1[ , -c(418:462, 464:480, 484:580, 594:604,
-                          610:621, 628:647, 664:690, 706:786)]
+                          610:621, 628:647, 664:690, 706:786)] %>%
+  rename_with( ~ paste0("wdi_", .x)) %>%
+  rename(iso3 = wdi_iso3,
+         year = wdi_year)
 #--------------------------------------------------------------------------------------
-write_rds(WDI_full_df_edit_v2, "~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/WDI_full_df_edit_v2.rds")
+WDI_full_df_edit_v2 %>%
+  select(contains("service")) %>%
+  names()
+#--------------------------------------------------------------------------------------
+WDI_full_df_edit_v3 <- WDI_full_df_edit_v2 %>%
+  rename(wdi_finacial_intermed_services_constant_LCU = "wdi_Financial intermediary services indirectly Measured (FISIM) (constant LCU)")
+#--------------------------------------------------------------------------------------
+write_rds(WDI_full_df_edit_v3, "~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/WDI_full_df_edit_v3.rds")
 #--------------------------------------------------------------------------------------
 
 

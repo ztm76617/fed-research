@@ -1186,6 +1186,129 @@ mega_combined_vars_df_final %>%
   scale_x_continuous(limits = c(1980, 2020), breaks = seq(1980, 2020, by = 10)) +
   facet_wrap(vars(iso3)) +
   geom_vline(xintercept = 2007, linetype = "dashed", color = "blue")
+#--------------------------------------------------------------------------------
+names(wid_df_final)
+
+mega_combined_vars_df_final %>%
+  filter(iso2 %in% c("US", "CA")) %>%
+  select(country_name, year,
+         wid_ratio_capital_share_factor_price_national_income,
+         wid_ratio_labor_share_factor_price_national_income) %>%
+  rename("Capital" = wid_ratio_capital_share_factor_price_national_income,
+         "Labor" = wid_ratio_labor_share_factor_price_national_income) %>%
+  gather(key = "Type", value = "value", -country_name, -year) %>%
+  ggplot(aes(x = year, y = value)) +
+  geom_line(aes(linetype = Type)) +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Income Share (%)",
+       linetype = "",
+       caption = "
+       Data source(s): World Inequality Database") +
+  theme(text = element_text(face = 'bold'),
+        axis.title.x = element_text(vjust = -0.7),
+        plot.caption = element_text(hjust = 0),
+        plot.caption.position = "plot",
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black")) +
+  scale_x_continuous(limits = c(1980, 2020), breaks = seq(1980, 2020, by = 10)) +
+  geom_vline(xintercept = 2007, linetype = "dashed", color = "blue") +
+  facet_wrap(vars(country_name))
+#--------------------------------------------------------------------------------
+names(wid_df_final)
+
+mega_combined_vars_df_final %>%
+  filter(iso2 %in% c("US", "CA")) %>%
+  mutate(ratio_capital_vs_labor_income = wid_ratio_capital_share_factor_price_national_income/wid_ratio_labor_share_factor_price_national_income,
+         ratio_nonfinancial_financial_assets = wid_national_nonfinancial_assets_2021_LCU/wid_national_financial_assets_2021_LCU) %>%
+  select(country_name, year, ratio_capital_vs_labor_income, ratio_nonfinancial_financial_assets) %>%
+  rename("Capital Income vs. Labor Income" = ratio_capital_vs_labor_income,
+         "Nonfinancial Assets vs. Financial Assets" = ratio_nonfinancial_financial_assets) %>%
+  gather(key = "Type", value = "value", -country_name, -year) %>%
+  ggplot(aes(x = year, y = value)) +
+  geom_line(aes(linetype = Type)) +
+  theme_bw() +
+  labs(x = "Year",
+       y = "",
+       linetype = "Ratio Type",
+       caption = "
+       Data source(s): World Inequality Database") +
+  theme(text = element_text(face = 'bold'),
+        axis.title.x = element_text(vjust = -0.75),
+        plot.caption = element_text(hjust = 0),
+        plot.caption.position = "plot",
+        legend.position = "right",
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black")) +
+  scale_x_continuous(limits = c(1980, 2020), breaks = seq(1980, 2020, by = 10)) +
+  geom_vline(xintercept = 2007, linetype = "dashed", color = "blue") +
+  facet_wrap(vars(country_name))
+#--------------------------------------------------------------------------------
+names(wid_df_final)
+
+summary(mega_combined_vars_df_final$pwt_pct_change_gfcf)
+
+mega_combined_vars_df_final %>%
+  filter(iso2 %in% c("US", "CA")) %>%
+  select(country_name, year,
+         wid_pct_change_financial_assets,
+         pwt_pct_change_gfcf) %>%
+  rename("Financial Assets" = wid_pct_change_financial_assets,
+         "Gross Fixed Capital Formation" = pwt_pct_change_gfcf) %>%
+  gather(key = "Type", value = "value", -country_name, -year) %>%
+  ggplot(aes(x = year, y = value)) +
+  geom_line(aes(linetype = Type)) +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Annual Percent Change (%)",
+       linetype = "",
+       caption = "
+       Data source(s): World Inequality Database & Penn World Table 10.0") +
+  theme(text = element_text(face = 'bold'),
+        axis.title.x = element_text(vjust = -0.75),
+        plot.caption = element_text(hjust = 0),
+        plot.caption.position = "plot",
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black")) +
+  scale_x_continuous(limits = c(1980, 2020), breaks = seq(1980, 2020, by = 10)) +
+  geom_vline(xintercept = 2007, linetype = "dashed", color = "blue") +
+  facet_wrap(vars(country_name))
+#--------------------------------------------------------------------------------
+names(wid_df_final)
+
+summary(mega_combined_vars_df_final$wid_pct_gdp_national_nonfinancial_assets)
+
+mega_combined_vars_df_final %>%
+  filter(iso2 %in% c("US", "CA")) %>%
+  select(country_name, year,
+         wid_pct_gdp_national_financial_assets,
+         wid_pct_gdp_national_nonfinancial_assets) %>%
+  rename("Financial Assets" = wid_pct_gdp_national_financial_assets,
+         "Nonfinancial Assets" = wid_pct_gdp_national_nonfinancial_assets) %>%
+  gather(key = "Type", value = "value", -country_name, -year) %>%
+  ggplot(aes(x = year, y = value)) +
+  geom_line(aes(linetype = Type)) +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Percent GDP (%)",
+       linetype = "",
+       caption = "
+       Data source(s): World Inequality Database & Penn World Table 10.0") +
+  theme(text = element_text(face = 'bold'),
+        axis.title.x = element_text(vjust = -0.75),
+        plot.caption = element_text(hjust = 0),
+        plot.caption.position = "plot",
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black")) +
+  scale_x_continuous(limits = c(1980, 2020), breaks = seq(1980, 2020, by = 10)) +
+  geom_vline(xintercept = 2007, linetype = "dashed", color = "blue") +
+  facet_wrap(vars(country_name))
+
+
+    
 
 
 

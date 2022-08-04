@@ -12,9 +12,10 @@ output:
   pdf_document:
     number_sections: true
     fig_caption: true
+    keep_tex: TRUE
 bibliography: monetary.bib
 csl: apsa-edit.csl
-fontsize: 12pt
+fontsize: 11pt
 indent: yes
 link-citations: yes
 geometry: margin=1in
@@ -114,17 +115,20 @@ fedr_df_v2_copy <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Edit
 
 \spacing{1.5}
 
-
 # Introduction {-}
 
-In 2018, the journal *Perspectives on Politics* published an interesting back-and-forth between two opposing sets of monetary politics scholars. Sarah Binder and Mark Spindel are the authors of *The Myth of Independence*, which argues that the Federal Reserve has an "interdependent relationship" with Congress. Both institutions rely on each other for different things, so neither is wholly dependent on nor independent from the other, hence why Binder and Spindel refer to their relationship as interdependent. On the other hand, Desmond King and Lawrence Jacobs argue in *Fed Power* that the Federal Reserve is effectively independent of Congress and holds more institutional power than it has at any point in its history. They argue that the Fed's policies, under normal economic conditions, serve to worsen economic inequality by favoring financial capital over working-class Americans. The *Perspectives on Politics* article is unique in that it is structured as follows:
+The politics of monetary policy is not the most popular subfield in political science. Therefore, it was curious to see that in 2018, the journal *Perspectives on Politics* published an interesting back-and-forth between two opposing sets of monetary politics scholars. Sarah Binder and Mark Spindel are the authors of *The Myth of Independence*, which argues that the Federal Reserve has an "interdependent relationship" with Congress. Both institutions rely on each other for different things, so neither is wholly dependent on nor independent from the other, hence why Binder and Spindel refer to their relationship as interdependent. On the other hand, Desmond King and Lawrence Jacobs argue in their book, *Fed Power*, that the Federal Reserve is effectively independent of Congress and holds more institutional power than it has at any point in its history. They argue that the Fed's policies, under normal economic conditions, serve to worsen economic inequality by favoring financial capital over working-class Americans. The *Perspectives on Politics* article is unique in that it is structured as follows:
 
 1. King reviews *The Myth of Independence*
 2. Binder and Spindel respond to King's review
 3. Binder and Spindel reviews *Fed Power*
 4. King and Lawrence respond to Binder and Spindel's review
 
-In their response, King and Lawrence summarize their main disagreements with *The Myth of Independence*, stating that "Sarah Binder and Mark Spindel view the Fed’s actions as part of a dance with Congress that is largely silent about the winners and losers outside of Washington. By contrast, Fed Power puts the distributional consequences of the central bank’s policy front and center, along with the politics that produces them" [@binder2018c, pg. 783]. In other words, Binder and Spindel do not pay sufficient attention to the distributional consequences concerning income and wealth that result from Fed policies, nor do they appear to recognize the actual amount of power held by the Fed. 
+In their response, King and Lawrence summarize their main disagreements with *The Myth of Independence*, stating that "Sarah Binder and Mark Spindel view the Fed’s actions as part of a dance with Congress that is largely silent about the winners and losers outside of Washington. By contrast, *Fed Power* puts the distributional consequences of the central bank’s policy front and center, along with the politics that produces them" [@binder2018c, pg. 783]. In other words, King criticizes Binder and Spindel for not paying enough attention to the distributional consequences concerning income and wealth that result from Fed policies, nor do they appear to recognize the actual amount of power held by the Fed. 
+
+It is notable that these respective teams of Fed scholars would come to such diametrically opposed positions when it comes to the true nature of the relationship between Congress and the Fed. On its face, the question of whether or not the Fed is dependent on Congress would seem rather straightforward. In reality, as all four scholars point out, the quasi-governmental status of the Fed makes it difficult to study, given that its semi-private status prevents much information from being public accessible. But with that being said, there is enough public information available to where one might reasonably expect professional academics to be able to come to an agreement on a simple question like: What's the relationship between Congress and the Fed? 
+
+# Initial Issues
 
 Moreover, King and Lawrence, in their joint response, list their top four criticisms of *The Myth of Independence*,  wherein they posit that Binder and Spindel:
 
@@ -141,7 +145,7 @@ Without descending into a pedantic discussion of how to best understand and defi
 
 # Stasis Issues
 
-Obviously, the authors in question are not addressing each other, thus creating stasis issues in this "critical dialogue." It is frustrating to watch accomplished and no doubt knowledgeable Fed scholars talk past each other, but here we are. What follows is a systematic breakdown of the myriad stasis issues I identified in my reading of the critical back-and-forths presented in @binder2018c.
+The authors in question are not addressing each other, thus creating stasis issues in this "critical dialogue." It is frustrating to watch accomplished and no doubt knowledgeable Fed scholars talk past each other, but here we are. What follows is a systematic breakdown of the myriad stasis issues I identified in my reading of the critical back-and-forths presented in @binder2018c.
 
 ## Inequality & the Fed
 
@@ -153,37 +157,9 @@ The most egregious example of Binder and Spindel missing the point is how they r
 
 I've done my best to fairly and accurately represent each author's views while being concise. If anyone has issues with how I've represented the above exchange, I welcome any criticisms, given the subjective nature of how I chose to shorten the respective quotes. That said, insofar as the above quotes *do* accurately and fairly represent the authors' respective views concerning the Fed's role in contributing to the 2008 financial crisis and the subsequent worsening of income and wealth inequality, on top of the aforementioned job losses and misery, Binder's response is lacking, to say the least.
 
-Pointing to the fact that Fed's bond buying supposedly "reduced mortgage rates, making working- and middle-class Americans better-off" is tantamount to lauding an engineer for filling a single crack on a fully broken dam. Binder's response implicitly under-emphasizes the apocalyptic experiences felt by millions of Americans and citizens worldwide. There may not be enough time in this article to discuss the Fed's role in propping up the European Union during the Eurocrisis, but it's at least worth mentioning for the time being. For now, it is necessary to specify what we mean when discussing and subsequently operationalizing "economic inequality."
+Pointing to the fact that Fed's bond buying supposedly "reduced mortgage rates, making working- and middle-class Americans better-off" is tantamount to lauding an engineer for filling a single crack on a fully broken dam. Binder's response implicitly under-emphasizes the apocalyptic experiences felt by millions of Americans and citizens worldwide. Thomas Piketty is arguably the premier scholar when it comes to income and wealth inequality. In his book, *Capital in the Twenty-First Century*, Piketty argues two main, overarching points. First, the fundamental contradiction of capitalism is that, many times throughout the 18th to 21st centuries, the rate of return on capital assets was greater than the rate of economic growth, which he illustrates with the following simple expression: *r* > *g*.  @albertus2016a argues that, while Piketty's explanation is mostly accurate, the U-shaped pattern of inequality "only really holds for a handful of industrialized economies and a subset of developing countries" (pg. 49). Instead, the authors argue that the observed pattern of global income and wealth inequality seen in the 20th century resulted from the "political regime types and the social groups they empower, rather than war and globalization" [@albertus2016a, pg. 49].
 
-```{r capital_comp, cache=TRUE, fig.cap="\\label{income_dist1}Cross-National Comparison of Capital Investments (\\% of GDP)"}
-#--------------------------------------------------------------------------------
-mega_combined_vars_df_final %>%
-  filter(iso2 %in% c("US", "CA")) %>%
-  select(country_name, year,
-         wid_pct_gdp_national_financial_assets,
-         wid_pct_gdp_national_nonfinancial_assets) %>%
-  rename("Financial Assets" = wid_pct_gdp_national_financial_assets,
-         "Nonfinancial Assets" = wid_pct_gdp_national_nonfinancial_assets) %>%
-  gather(key = "Type", value = "value", -country_name, -year) %>%
-  ggplot(aes(x = year, y = value)) +
-  geom_line(aes(linetype = Type)) +
-  theme_bw() +
-  labs(x = "Year",
-       y = "Percent GDP (%)",
-       linetype = "",
-       caption = "
-       Data source(s): World Inequality Database & Penn World Table 10.0") +
-  theme(text = element_text(face = 'bold'),
-        axis.title.x = element_text(vjust = -0.75),
-        plot.caption = element_text(hjust = 0),
-        plot.caption.position = "plot",
-        legend.position = "bottom",
-        legend.background = element_blank(),
-        legend.box.background = element_rect(colour = "black")) +
-  scale_x_continuous(limits = c(1980, 2020), breaks = seq(1980, 2020, by = 10)) +
-  geom_vline(xintercept = 2007, linetype = "dashed", color = "blue") +
-  facet_wrap(vars(country_name))
-```
+There may not be enough time in this article to discuss the Fed's role in propping up the European Union during the Eurocrisis, but it's at least worth mentioning for the time being. For now, it is necessary to specify what we mean when discussing and subsequently operationalizing "economic inequality."
 
 The most common way scholars measure *income* inequality is by calculating a country's Gini coefficient, an index value ranging from 0 to 1, with 0 representing perfect equality and 1 representing perfect inequality. The World Bank provides the following more comprehensive explanation:
 
@@ -191,40 +167,11 @@ The most common way scholars measure *income* inequality is by calculating a cou
 
 \autoref{income_dist1} shows that, contrary to what Binder and Spindel seem to imply, inequality in the US worsened post-2008. And to bolster King and Jacobs's argument that the Fed should have emulated the Bank of Canada, \autoref{income_dist1} also shows that the income share of their Top 1% decreased sharply from 2008 to 2013. In contrast, the income share going to the Top 1% in the US  sharply *increased* post-2008. But where does the Fed come in? According to Leonard---and in stark contrast to the claims of Binder and Spindel---the Fed's policy of "quantitative easing" (QE) did more than any other single policy "to widen the divide between the rich and the poor [@leonard2022, pg. 10].
 
-```{r income_dist1, cache=TRUE, fig.cap="\\label{income_dist1}Share of National Income (\\%)"}
-#--------------------------------------------------------------------------------
-mega_combined_vars_df_final %>%
-  filter(iso2 %in% c("US", "CA")) %>%
-  mutate(wid_pre_tax_income_share_bottom_50pct = wid_pre_tax_income_share_bottom_50pct*100,
-         wid_pre_tax_income_share_top_1pct = wid_pre_tax_income_share_top_1pct*100) %>%
-  rename("Bottom 50%" = wid_pre_tax_income_share_bottom_50pct,
-         "Top 1%" = wid_pre_tax_income_share_top_1pct,) %>%
-  select(country_name, year, "Bottom 50%", "Top 1%") %>%
-  gather(key = "Type", value = "value", -country_name, -year) %>%
-  ggplot(aes(x = year, y = value)) +
-  geom_line(aes(linetype = Type)) +
-  theme_bw() +
-  labs(x = "Year",
-       y = "Income Share (%)",
-       linetype = "",
-       caption = "
-       Data source(s): World Inequality Database") +
-  theme(text = element_text(face = 'bold'),
-        axis.title.x = element_text(vjust = -0.5),
-        axis.title.y = element_text(vjust = 2.5),
-        plot.caption = element_text(hjust = 0),
-        plot.caption.position = "plot",
-        legend.position = "bottom",
-        legend.background = element_blank(),
-        legend.box.background = element_rect(colour = "black")) +
-  scale_x_continuous(limits = c(1980, 2020), breaks = seq(1980, 2020, by = 10)) +
-  scale_y_continuous(breaks = seq(7, 22, by = 2)) +
-  facet_wrap(vars(country_name)) +
-  geom_vline(xintercept = 2008, linetype = "dashed", color = "blue")
-#--------------------------------------------------------------------------------
-```
-
 To critique King, he could have done a better job of demonstrating his claims concerning the Fed and the 2008 financial crisis by providing citations and at least a few more lines of discussion. But it is unclear if such improvements on King's part would have elicited a different response from Binder, given that the crux of their disagreement has nothing to do with the factual validity of each others' claims. Instead, they are discussing two completely different aspects of the financial crisis that can simultaneously be true. My issue with Binder's response has nothing to do with the factualness of her claim, rather that she 1) underplays the severity of the crisis and 2) makes it seem that the Fed's bond-buying *reduced* inequality rather than increased it.
+
+It is also worth pointing out that the Fed's chosen vehicles for intervening in the economy (capital markets, bond markets, etc.) are not neutral in their distributional consequences. In other words, income inequality is partly fueled by the Fed's usage of various markets as the means to allocate the growing number of different financial assets that it owns and wants to inject into the broader economy. This is why it is said that any affect on the national economy caused by the Fed is indirect, since it has to first interact with the banking industry with the reasonable expectation that the banks' behavior will change in some vauge proportion to the benefit it received from the Fed.
+
+Having recogized the distributional bias of Fed policy implementation, the next question we should ask ourselves is: Who benefits from the Fed operating this way? The answer: the very wealthy, those who already own assets. The Fed, in its role as a quasi-governmental institution, "oeprates in areas in which the wealthy possess unique, cumulative advantages" [@jacobs2018d, pg. 730]. 
 
 ## Independence vs. Interdependence
 
@@ -244,39 +191,9 @@ Binder appears to equate legislation requiring increased transparency at the Fed
 
 The scholarly treatment of the history of the Fed is one of the most curious phenomena in the social sciences. As Binder and Spindel did in *The Myth of Independence*, and as countless others have done and will continue to do, the Fed's essential history is well documented. That said, the *essential* history of the Fed is one of the obstacles that prevents most scholars from engaging with the Fed in recognition of what it is, that being the single most powerful and influential central bank in the world, an institution that garners the attention of both the finance ministers of every country as well as every bank and financial asset manager.
 
-```{r fed_funds, cache=TRUE, fig.cap="\\label{fed_funds_rate}Effective Federal Funds Rate (\\%)"}
-#--------------------------------------------------------------------------------
-fedr_df_v2_copy %>%
-  filter(year >= 1970) %>%
-  filter(series_id %in% c('Federal Funds Rate')) %>%
-  ggplot(mapping = aes(x = date, y = value)) +
-  geom_line() +
-  geom_smooth(method = "loess") +
-  theme_bw() +
-  labs(x = "Month-Year",
-       y = "Interest Rate (%)") +
-  theme(axis.text.x = element_text(angle = 35, hjust = 1),
-        axis.title.x = element_text(vjust = -1),
-        text = element_text(face = 'bold'),
-        legend.position = "bottom",
-        legend.background = element_blank(),
-        legend.box.background = element_rect(colour = "black")) +
-  scale_x_date(date_labels = "%b-%Y",
-               date_breaks = "48 month") +
-  geom_vline(xintercept=as.numeric(fedr_df_v2_copy$date[299]), linetype="longdash", color = "red") +
-  geom_label(label="Volcker Shock",
-             x = as.numeric(fedr_df_v2_copy$date[237]),
-             y = 18.5,
-             label.padding = unit(0.275, "lines"),
-             label.size = 0.15,
-             color = "black",
-             fill = "#69b3a2")
-#--------------------------------------------------------------------------------
-```
-
 One need not look that far back into 20th-century history to observe the Fed's actions affecting the world economy, not to mention that one could argue that the European Union owes its post-2015 existence to the Fed's dollar swap-lines.
 
-# Original Empirical Analysis
+# Empirical Analysis
 
 What causes inequality? More specifically, what causes income inequality? According to Binder and Spindel, not the Fed! Not the Fed's standard operating procedures! I'm more inclined to believe King and Jacobs when they say, on the contrary, that the Fed is an inequality machine, with each of its typical policies and actions serving to worsen inequality in the US and the world. But which set of scholars is right?
 
@@ -296,11 +213,41 @@ There is a large body of literature that examines the various social and politic
 
 ## Methods
 
-Following the recommendations of Nathaniel Beck and Jonathan Katz, I have employed a time-series panel study of 24 OECD countries.
+Following the recommendations of Nathaniel Beck and Jonathan Katz, I have employed a time-series panel study of 24 OECD countries that applies panel-corrected standard errors (PCSE) in the final analysis.
 
 ## Results
 
-\autoref{ineq1} shows, across multiple model specifications, that a one unit increase in financial assets (as a share of GDP) is associated with, on average and all things being equal, between a 0.204 and 1.346 unit increase in income inequality, depending on how inequality is measured.
+\autoref{ineq1} shows, across multiple model specifications, that a one unit increase in financial assets (as a share of GDP) is associated with, on average and all things being equal, between a 0.204 and 1.346 unit increase in income inequality, depending on how inequality is measured. The main takeaway from this table is that a number of things appear to have an effect on income inequality, regardless of how it is measured.
+
+# Conclusion
+
+Binder and Spindel fail to effectively refute any of King and Jacobs's criticisms. Instead, they reinforce the validity of the various criticisms by intentionally refusing or failing to provide any comprehensive counter-arguments, only ones that touch on one particular *aspect* of the original criticism.  Thus, it is difficult, if not impossible, to find Binder and Spindel's thesis credible when they have shown that they are either unwilling or incapable of defending their claims. 
+
+\clearpage
+\newpage
+\onehalfspace
+\fancypagestyle{BIB}{%
+    \fancyhead[R]{}
+    \fancyhead[L]{}
+}
+
+\thispagestyle{BIB}
+
+# Bibliography {-}
+
+<div id="refs"></div>
+
+\singlespace
+\newpage
+\fancypagestyle{APP}{%
+    \fancyhead[R]{}
+    \fancyhead[L]{}
+}
+
+\pagestyle{APP}
+
+# Appendix {-}
+
 
 ```{r ols1, cache=TRUE, results='asis'}
 #--------------------------------------------------------------------------------------
@@ -323,8 +270,6 @@ regression_ready_df <- mega_combined_vars_df_final %>%
          cabinet_majority_left,
          oecd_public_socspend_wa_pct_gdp) %>%
   make.pbalanced()
-
-write_rds(regression_ready_df, '~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/regression_ready_df.rds')
 #-----------------------------------------------------------------------------------------------
 form_m1.1 <- wid_pre_tax_income_share_top_1pct ~
   pwt_irr +
@@ -588,33 +533,95 @@ stargazer(lm_group,
                                "Left Cabinet"))
 ```
 
+```{r fed_funds, cache=TRUE, fig.cap="\\label{fed_funds_rate}Effective Federal Funds Rate (\\%)"}
+#--------------------------------------------------------------------------------
+fedr_df_v2_copy %>%
+  filter(year >= 1970) %>%
+  filter(series_id %in% c('Federal Funds Rate')) %>%
+  ggplot(mapping = aes(x = date, y = value)) +
+  geom_line() +
+  geom_smooth(method = "loess") +
+  theme_bw() +
+  labs(x = "Month-Year",
+       y = "Interest Rate (%)") +
+  theme(axis.text.x = element_text(angle = 35, hjust = 1),
+        axis.title.x = element_text(vjust = -1),
+        text = element_text(face = 'bold'),
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black")) +
+  scale_x_date(date_labels = "%b-%Y",
+               date_breaks = "48 month") +
+  geom_vline(xintercept=as.numeric(fedr_df_v2_copy$date[299]), linetype="longdash", color = "red") +
+  geom_label(label="Volcker Shock",
+             x = as.numeric(fedr_df_v2_copy$date[237]),
+             y = 18.5,
+             label.padding = unit(0.275, "lines"),
+             label.size = 0.15,
+             color = "black",
+             fill = "#69b3a2")
+#--------------------------------------------------------------------------------
+```
 
-# Conclusion
+```{r income_dist1, cache=TRUE, fig.cap="\\label{income_dist1}Share of National Income (\\%)"}
+#--------------------------------------------------------------------------------
+mega_combined_vars_df_final %>%
+  filter(iso2 %in% c("US", "CA")) %>%
+  mutate(wid_pre_tax_income_share_bottom_50pct = wid_pre_tax_income_share_bottom_50pct*100,
+         wid_pre_tax_income_share_top_1pct = wid_pre_tax_income_share_top_1pct*100) %>%
+  rename("Bottom 50%" = wid_pre_tax_income_share_bottom_50pct,
+         "Top 1%" = wid_pre_tax_income_share_top_1pct,) %>%
+  select(country_name, year, "Bottom 50%", "Top 1%") %>%
+  gather(key = "Type", value = "value", -country_name, -year) %>%
+  ggplot(aes(x = year, y = value)) +
+  geom_line(aes(linetype = Type)) +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Income Share (%)",
+       linetype = "",
+       caption = "
+       Data source(s): World Inequality Database") +
+  theme(text = element_text(face = 'bold'),
+        axis.title.x = element_text(vjust = -0.5),
+        axis.title.y = element_text(vjust = 2.5),
+        plot.caption = element_text(hjust = 0),
+        plot.caption.position = "plot",
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black")) +
+  scale_x_continuous(limits = c(1980, 2020), breaks = seq(1980, 2020, by = 10)) +
+  scale_y_continuous(breaks = seq(7, 22, by = 2)) +
+  facet_wrap(vars(country_name)) +
+  geom_vline(xintercept = 2008, linetype = "dashed", color = "blue")
+#--------------------------------------------------------------------------------
+```
 
-Binder fails to refute any of King's criticisms. Instead, she reinforces their validity by intentionally refusing or simply failing to provide any comprehensive counter-arguments, only ones that touch on one particular aspect of the original criticism.
-
-\clearpage
-\newpage
-\onehalfspace
-\fancypagestyle{BIB}{%
-    \fancyhead[R]{}
-    \fancyhead[L]{}
-}
-
-\thispagestyle{BIB}
-
-# Bibliography {-}
-
-<div id="refs"></div>
-
-\singlespace
-\newpage
-\fancypagestyle{APP}{%
-    \fancyhead[R]{}
-    \fancyhead[L]{}
-}
-
-\thispagestyle{APP}
-
-# Appendix {-}
-
+```{r capital_comp, cache=TRUE, fig.cap="\\label{income_dist1}Cross-National Comparison of Capital Investments (\\% of GDP)"}
+#--------------------------------------------------------------------------------
+mega_combined_vars_df_final %>%
+  filter(iso2 %in% c("US", "CA")) %>%
+  select(country_name, year,
+         wid_pct_gdp_national_financial_assets,
+         wid_pct_gdp_national_nonfinancial_assets) %>%
+  rename("Financial Assets" = wid_pct_gdp_national_financial_assets,
+         "Nonfinancial Assets" = wid_pct_gdp_national_nonfinancial_assets) %>%
+  gather(key = "Type", value = "value", -country_name, -year) %>%
+  ggplot(aes(x = year, y = value)) +
+  geom_line(aes(linetype = Type)) +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Percent GDP (%)",
+       linetype = "",
+       caption = "
+       Data source(s): World Inequality Database & Penn World Table 10.0") +
+  theme(text = element_text(face = 'bold'),
+        axis.title.x = element_text(vjust = -0.75),
+        plot.caption = element_text(hjust = 0),
+        plot.caption.position = "plot",
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black")) +
+  scale_x_continuous(limits = c(1980, 2020), breaks = seq(1980, 2020, by = 10)) +
+  geom_vline(xintercept = 2007, linetype = "dashed", color = "blue") +
+  facet_wrap(vars(country_name))
+```

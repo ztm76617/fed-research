@@ -3,10 +3,10 @@
 #--------------------------------------------------------------------------------------
 library(tidyverse); library(stargazer); library(papeR); library(ggrepel); library(ggpubr); library(gplots)   
 library(kableExtra); library(car); library(zoo); library(rio); library(readxl); library(haven); library(lubridate)
-library(scales); library(IndexNumR); library(wid); library(scales); library(datawrangling); library(rticles)
-library(stats); library(smooth); library(tm); library(TTR); library(naniar); library(stevetemplates); library(ggthemr)
+library(scales); library(IndexNumR); library(wid); library(scales); library(rticles); library(ggthemr)
+library(stats); library(smooth); library(tm); library(TTR); library(naniar); library(stevetemplates)
 library(plm); library(WDI); library(lmtest); library(sandwich); library(interactions); library(rmarkdown);
-library(gtable); library(grid); library(gridExtra); library(captioner); library(countrycode)
+library(gtable); library(grid); library(gridExtra); library(captioner); library(countrycode); library(ISOcodes)
 #--------------------------------------------------------------------------------------
 # Load Data
 #--------------------------------------------------------------------------------------
@@ -15,34 +15,70 @@ cpds.df_tidy <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Edited 
 Global_Debt_Database_tidy_v2 <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/Global_Debt_Database_tidy_v2.rds")
 manifesto_project_df_tidy <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/manifesto_project_df_tidy.rds")
 vdem_full_tidy <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/vdem_full_tidy.rds")
-global_oecd_dfs_merged <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/global_oecd_dfs_merged.rds")
+global_oecd_dfs_merged_v2 <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/global_oecd_dfs_merged_v2.rds")
 DPI_df_tidy <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/DPI_df_tidy.rds")
-WDI_full_df_edit_v2 <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/WDI_full_df_edit_v2.rds")
+WDI_full_df_edit_v3 <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/WDI_full_df_edit_v3.rds")
 wid_df_final <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/wid_df_final.rds")
+KOFGI_df_tidy <- readRDS("~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/KOFGI_df_tidy.rds")
 #--------------------------------------------------------------------------------------
 # No scientific notation
 options(scipen = 100)
 #--------------------------------------------------------------------------------------
+full_OECD_country_list_df <- ISO_3166_1 %>%
+  select(Name, Alpha_3, Alpha_2) %>%
+  filter(Alpha_2 %in% c("AU", "AT", "BE", "CA", "FR", "DE",
+                        "ES", 'FI', "FR", "GB", "GR", 'IE',
+                        "IL", "IS", "IT", "JP", "KR", "LU",
+                        "NL", "NZ", "NO", "PT", "SE", "CH",
+                        "US")) %>%
+  rename(iso2 = Alpha_2,
+         iso3 = Alpha_3,
+         country_name = Name) %>%
+  mutate(country_name = str_replace_all(country_name,
+                                        c("Korea, Republic of" = "South Korea")))
+
+full_country_list_df <- ISO_3166_1 %>%
+  select(Name, Alpha_3, Alpha_2) %>%
+  rename(iso2 = Alpha_2,
+         iso3 = Alpha_3,
+         country_name = Name) %>%
+  mutate(country_name = str_replace_all(country_name,
+                                        c("Korea, Republic of" = "South Korea")))
+
+
+#--------------------------------------------------------------------------------------
 # Country Groupings
 g7_countries <- c("CAN", "USA", "GBR", "FRA", "JPN", "DEU", "ITA")
-#--------------------------------------------------------------------------------------
-## Adding prefixes
-df %>% rename_with( ~ paste0("a", .x))
 
+g20_countries <- c("ARG", "AUS", "BRA", "CAN", "CHN",
+                   "FRA", "DEU", "IND", "IDN", "ITA",
+                   "JPN", "MEX", "RUS", "SAU", "ZAF",
+                   "KOR", "TUR", "GBR", "USA", "ESP")
+
+oecd_countries <- c("AU", "AT", "BE", "CA", "FR", "DE",
+                    "ES", 'FI', "FR", "GB", "GR", 'IE',
+                    "IL", "IS", "IT", "JP", "KR", "LU",
+                    "NL", "NZ", "NO", "PT", "SE", "CH",
+                    "US")
+#--------------------------------------------------------------------------------------
+# Adding prefixes
+df %>% rename_with( ~ paste0("a", .x))
+#--------------------------------------------------------------------------------------
 ## Adding suffixes
 df %>% rename_with( ~ paste0(.x, "a"))
 #--------------------------------------------------------------------------------------
 # Creating the base mega-dataset 
-mega_combined_vars_df <- full_OECD_country_list_df %>%
+mega_combined_vars_df <- full_country_list_df %>%
   left_join(wid_df_final, by = c('iso2')) %>%
   left_join(cpds.df_tidy, by = c('iso3', 'year')) %>%
   left_join(pwt_mega_df, by = c('iso3', 'year')) %>%
-  left_join(WDI_full_df_edit_v2, by = c('iso3', 'year')) %>%
+  left_join(WDI_full_df_edit_v3, by = c('iso3', 'year')) %>%
   left_join(Global_Debt_Database_tidy_v2, by = c('iso3', 'year')) %>%
-  left_join(global_oecd_dfs_merged, by = c('iso3', 'year')) %>%
+  left_join(global_oecd_dfs_merged_v2, by = c('iso3', 'year')) %>%
   left_join(vdem_full_tidy, by = c('iso3', 'year')) %>%
   left_join(manifesto_project_df_tidy, by = c('iso2', 'year')) %>%
   left_join(DPI_df_tidy, by = c('iso3', 'year')) %>%
+  left_join(KOFGI_df_tidy, by = c('iso3', 'year')) %>%
   set_names(~ (.) %>%
               str_replace_all("Non_financial_corporations", "nonfinancial_corps") %>%
               str_replace_all("non_financial_corporations", "nonfinancial_corps") %>%
@@ -65,10 +101,10 @@ mega_combined_vars_df <- full_OECD_country_list_df %>%
          wid_market_exchange_rate_LCU_per_USD_2017,
          wid_market_exchange_rate_LCU_per_USD_2019), .direction = "downup") %>%
   ungroup(iso3) %>%
-  mutate(country_name = countrycode(iso3, origin = 'iso3c', destination = 'p4.name')) %>%
   select('country_name', 'iso3', 'iso2', 'year', sort(colnames(.))) %>%
   arrange(iso3, year) %>%
-  distinct(iso3, year, .keep_all = TRUE)
+  distinct(iso3, year, .keep_all = TRUE) %>%
+  filter(year != "NA")
 #--------------------------------------------------------------------------------------
 write_rds(mega_combined_vars_df, "~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/mega_combined_vars_df.rds")
 #--------------------------------------------------------------------------------------
@@ -81,7 +117,7 @@ mega_combined_vars_df_final <- mega_combined_vars_df %>%
          wid_pct_total_assets_financial_assets = (wid_national_financial_assets_2021_LCU/(wid_national_financial_assets_2021_LCU + wid_national_nonfinancial_assets_2021_LCU))*100,
          wid_pct_gdp_corporate_financial_assets = (wid_corporate_financial_assets_2021_LCU/wid_GDP_2021_LCU)*100,
          wid_pct_gdp_corporate_nonfinancial_assets = (wid_corporate_nonfinancial_assets_2021_LCU/wid_GDP_2021_LCU)*100,
-         wid_pct_gdp_national_financial_assets = (wid_national_financial_assets_2021_LCU/wid_GDP_2021_LCU),
+         wid_pct_gdp_national_financial_assets = (wid_national_financial_assets_2021_LCU/wid_GDP_2021_LCU)*100,
          wid_ratio_financial_assets_to_nonfinancial_assets = wid_national_financial_assets_2021_LCU/wid_national_nonfinancial_assets_2021_LCU,
          wid_pct_gdp_govt_nonfinancial_assets = (wid_govt_nonfinancial_assets_2021_LCU/wid_GDP_2021_LCU)*100,
          wid_pct_gdp_corporate_taxes = (wid_corporate_tax_2021_LCU/wid_GDP_2021_LCU)*100,
@@ -99,7 +135,8 @@ mega_combined_vars_df_final <- mega_combined_vars_df %>%
          wid_ratio_income_share_90th_50th_pctile = wid_pre_tax_income_share_90th_pctile/wid_pre_tax_income_share_50th_pctile,
          wid_ratio_income_share_90th_10th_pctile = wid_pre_tax_income_share_90th_pctile/wid_pre_tax_income_share_10th_pctile,
          wid_ratio_income_share_50th_10th_pctile = wid_pre_tax_income_share_50th_pctile/wid_pre_tax_income_share_10th_pctile,
-         wid_yoy_pct_change_pct_gdp_national_nonfinancial_assets = pct_change_function(wid_pct_gdp_national_nonfinancial_assets)) %>%
+         wid_yoy_pct_change_pct_gdp_national_nonfinancial_assets = pct_change_function(wid_pct_gdp_national_nonfinancial_assets),
+         wid_pct_change_financial_assets = pct_change_function(wid_national_financial_assets_2021_LCU)) %>%
   mutate_at(vars(starts_with("wid_pre_tax_income_share")), x100_func) %>%
   mutate(pwt_pct_GDP_GFCF = (pwt_gross_fixed_capital_formation_current_LCU/pwt_gdp_current_LCU)*100,
          pwt_pct_gdp_GFCF_5yr_ma = rollmean(pwt_pct_GDP_GFCF, k = 5, fill = NA),
@@ -141,7 +178,11 @@ mega_combined_vars_df_final <- mega_combined_vars_df %>%
          pwt_marx_rop_lag = dplyr::lag(pwt_marx_rop),
          pwt_irr = pwt_internal_rate_return_number,
          pwt_irr_lag = dplyr::lag(pwt_irr),
-         pwt_pct_gdp_international_trade = pwt_pct_gdp_imports + pwt_pct_gdp_exports) %>%
+         pwt_pct_gdp_international_trade = pwt_pct_gdp_imports + pwt_pct_gdp_exports,
+         pwt_gross_fixed_capital_formation_2015_LCU = pwt_gross_fixed_capital_formation_current_LCU/wid_national_price_idex_2015,
+         pwt_gross_fixed_capital_formation_2015_USD= pwt_gross_fixed_capital_formation_2015_LCU/wid_market_exchange_rate_LCU_per_USD_2015,
+         pwt_pct_change_gfcf = pct_change_function(pwt_gross_fixed_capital_formation_2015_USD),
+         pwt_gdp_current_LCU_full = pwt_gdp_current_LCU*1000) %>%
   mutate(oecd_total_socspend_current_LCU_millions_FULLPOP = oecd_total_private_socspend_full_pop_current_LCU_millions + oecd_public_socspend_full_pop_current_LCU_millions,
          private_socspend_FULLPOP_2017_USD_millions = oecd_total_private_socspend_full_pop_current_LCU_millions/wid_market_exchange_rate_LCU_per_USD_2017,
          public_socspend_FULLPOP_2017_USD_millions = oecd_public_socspend_full_pop_current_LCU_millions/wid_market_exchange_rate_LCU_per_USD_2017,
@@ -162,6 +203,7 @@ mega_combined_vars_df_final <- mega_combined_vars_df %>%
          pct_gdp_wa_private_welfare = oecd_total_private_socspend_wa_pct_gdp,
          pct_gdp_wa_public_welfare = oecd_public_socspend_wa_pct_gdp,
          pct_gdp_total_wa_welfare = pct_gdp_wa_private_welfare + pct_gdp_wa_public_welfare) %>%
+  mutate(wdi_pct_gdp_financial_services = `wdi_Final consumption expenditure (current LCU)`/pwt_gdp_current_LCU_full) %>%
   mutate(right_exec = if_else(DPI_left_right_chief_exec_party == 1, 1, 0),
          left_exec = if_else(DPI_left_right_chief_exec_party == 3, 1, 0),
          centrist_exec = if_else(DPI_left_right_chief_exec_party == 2, 1, 0),
@@ -177,14 +219,18 @@ mega_combined_vars_df_final <- mega_combined_vars_df %>%
          cabinet_left_over_right = if_else(cpds_pct_govt_cabinet_left_party > cpds_pct_govt_cabinet_right_party, 1, 0),
          cabinet_left_dominance = if_else(cpds_ideology_dominance_RL == 4, 1, 0),
          cabinet_right_center_dominance = if_else(cpds_ideology_dominance_RL == 2, 1, 0)) %>%
+  rename(wdi_pct_labor_force_basic_education = "wdi_Labor force with basic education (% of total working-age population with basic education)",
+         wdi_pct_labor_force_medium_education = "wdi_Labor force with intermediate education (% of total working-age population with intermediate education)",
+         wdi_pct_labor_force_advanced_education = "wdi_Labor force with advanced education (% of total working-age population with advanced education)",
+         wdi_pct_pop_socx_coverage = "wdi_Coverage of social protection and labor programs (% of population)") %>%
   ungroup(iso3) %>%
   mutate(manif_party_LR_idx_wt_avg = (-1*manif_party_right_left_idx_wt_avg)) %>%
+  mutate(piketty_ratio = pwt_irr/pwt_gdp_growth_2017_LCU) %>%
   select('country_name', 'iso3', 'iso2', 'year', sort(colnames(.)))
 #---------------------------------------------------------------------------------------------------------------------------
 write_rds(mega_combined_vars_df_final, '~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/mega_combined_vars_df_final.rds')
 #---------------------------------------------------------------------------------------------------------------------------
-
-
-
-
+summary(mega_combined_vars_df_final$ `wdi_Final consumption expenditure (current LCU)`)
+summary(mega_combined_vars_df_final$piketty_ratio)
+  
 

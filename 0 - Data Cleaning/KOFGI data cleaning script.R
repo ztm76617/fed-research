@@ -14,7 +14,7 @@ library(haven)
 library(lubridate)
 library(plm)
 #--------------------------------------------------------------
-KOFGI_df <- read_excel("~/My Drive/3 - Misc. Data Research/Misc. Data/KOFGI/KOFGI_2021_public.xlsx")
+KOFGI_df <- read_excel("~/Google Drive/My Drive/3 - Misc. Data Research/Misc. Data/KOFGI/KOFGI_2021_public.xlsx")
 #--------------------------------------------------------------
 KOFGI_df_tidy <- KOFGI_df %>%
   rename(iso3 = code,
@@ -33,7 +33,7 @@ KOFGI_df_tidy <- KOFGI_df %>%
   select(iso3, year, contains("idx")) %>%
   rename_at(vars(-iso3, -year), function(x) paste0("kofgi_", x))
 #--------------------------------------------------------------
-write_rds(KOFGI_df_tidy, "1 - Data/1 - Tidy Data/KOFGI_df_tidy.rds")
+write_rds(KOFGI_df_tidy, "~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/KOFGI_df_tidy.rds")
 #--------------------------------------------------------------
 
 

@@ -14,6 +14,10 @@ oecd_econ_outlook_global_df <- read_csv("1 - Data/Extra data/1 - OECD/oecd Econo
 oecd_socspend_df_wa_old_age <- read_csv("1 - Data/Extra data/1 - OECD/oecd socspend df.csv")
 
 oecd_union_df <- read_csv("1 - Data/Extra data/1 - OECD/oecd Trade Union Dataset (TOTAL).csv")
+
+oecd_finance_df <- read_csv("~/My Drive/3 - Misc. Data Research/Misc. Data/OECD/oecd finance data.csv", 
+                              col_types = cols(year = col_number(), 
+                                               value = col_number()))
 #-------------------------------------------------------------------------------------------------------------
 oecd_natl_accnts_glance_global_df_tidy <- oecd_natl_accnts_glance_global_df %>%
   mutate(variable = str_replace_all(variable, c("," = "",
@@ -183,6 +187,17 @@ oecd_govt_spending_df_tidy <- oecd_govt_spending_df %>%
          central_govt_total_expenditure_current_LCU = "Central government_Total function_Total government expenditure_Millions",
          central_govt_employee_compensation_current_LCU_millions = "Central government_Total function_Total compensation of employees paid by the government_Millions")
 #-------------------------------------------------------------------------------------------------------------
+oecd_finance_df_tidy <- oecd_finance_df %>%
+  select(-unit, -base_year) %>%
+  pivot_wider(names_from = vars,
+            values_from = value) %>%
+  select('iso3', 'year', sort(colnames(.))) %>%
+  rename(interest_rate_immediate = "Immediate interest rates, Call Money, Interbank Rate, Per cent per annum",
+         broad_money_idx = "Broad Money (M3) Index, SA",
+         narrow_money_idx = "Narrow Money (M1) Index, SA",
+         interest_rate_long_terme = "Long-term interest rates, Per cent per annum",
+         interest_rate_short_terme = "Short-term interest rates, Per cent per annum")
+#-------------------------------------------------------------------------------------------------------------
 global_oecd_dfs_merged <- oecd_econ_outlook_global_df_tidy %>%
   left_join(oecd_natl_accnts_glance_global_df_tidy, by = c('country_code_ISO3', 'year')) %>%
   left_join(oecd_corporate_taxes_df_tidy, by = c('country_code_ISO3', 'year')) %>%
@@ -195,11 +210,11 @@ global_oecd_dfs_merged <- oecd_econ_outlook_global_df_tidy %>%
   rename_with( ~ paste("oecd", .x, sep = "_")) %>%
   rename(country_code_ISO3 = oecd_country_code_ISO3,
          year = oecd_year)
-
-global_oecd_dfs_merged <- global_oecd_dfs_merged %>%
-  rename(iso3 = country_code_ISO3)
 #-------------------------------------------------------------------------------------------------------------
-write_rds(global_oecd_dfs_merged, "~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/global_oecd_dfs_merged.rds")
+global_oecd_dfs_merged_v2 <- global_oecd_dfs_merged %>%
+  left_join(oecd_finance_df_tidy, by = c('iso3', 'year'))
+#-------------------------------------------------------------------------------------------------------------
+write_rds(global_oecd_dfs_merged_v2, "~/Google Drive/My Drive/3 - Misc. Data Research/Edited Data/global_oecd_dfs_merged_v2.rds")
 #-------------------------------------------------------------------------------------------------------------
 
 
